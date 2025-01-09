@@ -1,6 +1,7 @@
 package com.moneyfli.user_service.utils;
 
 import com.moneyfli.user_service.dto.CreateCustomerRequest;
+import com.moneyfli.user_service.dto.CustomerResponse;
 import com.moneyfli.user_service.model.Customer;
 
 public class Utils {
@@ -15,8 +16,8 @@ public class Utils {
             .build();
     }
 
-    public static Customer fromCustomer(Customer customer) {
-        return Customer.builder()
+    public static CustomerResponse fromCustomer(Customer customer) {
+        return CustomerResponse.builder()
             .name(customer.getName())
             .email(customer.getEmail())
             .phoneNo(customer.getPhoneNo())

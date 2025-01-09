@@ -38,16 +38,15 @@ public class CustomerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer user = customerDao.findByPhoneNo(username);
-        if (user == null) {
+        Customer customer = customerDao.findByPhoneNo(username);
+        if (customer == null) {
             throw new UsernameNotFoundException("User not found with phone number: " + username);
         }
+        return User.builder().username(customer.getPhoneNo()).password(customer.getPassword()).roles("USER").build();
+    }
 
-        return User.builder()
-                .username(user.getPhoneNo())
-                .password(user.getPassword())
-                .roles("USER")
-                .build();
+    public Customer getCustomerByPhoneNo(String phoneNo) {
+        return customerDao.findByPhoneNo(phoneNo);
     }
 
 

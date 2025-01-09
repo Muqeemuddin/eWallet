@@ -1,6 +1,7 @@
 package com.moneyfli.user_service.controller;
 
 import com.moneyfli.user_service.dto.CreateCustomerRequest;
+import com.moneyfli.user_service.dto.CustomerResponse;
 import com.moneyfli.user_service.model.Customer;
 import com.moneyfli.user_service.service.CustomerService;
 import com.moneyfli.user_service.utils.Utils;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,8 +25,9 @@ public class CustomerController {
     }
 
     @GetMapping("/get-customer")
-    public Customer getCustomer() {
-         Customer customer = (Customer)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-         return Utils.fromCustomer(customer);
+    public CustomerResponse getCustomer() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((User) principal).getUsername();
+        return Utils.fromCustomer(customerService.getCustomerByPhoneNo(username));
     }
 }
