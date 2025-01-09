@@ -8,10 +8,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class CustomerService implements UserDetailsService {
@@ -19,15 +18,13 @@ public class CustomerService implements UserDetailsService {
     @Autowired
     private CustomerDao customerDao;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private CustomerKafkaProducer customerKafkaProducer;
 
     public String createOrUpdateCustomer(Customer customer) {
         try {
-            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+            customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             customerDao.save(customer);
             customerKafkaProducer.sendCustomerCreatedMessage(
                     String.format("Customer %s created successfully with mobile number %s",
