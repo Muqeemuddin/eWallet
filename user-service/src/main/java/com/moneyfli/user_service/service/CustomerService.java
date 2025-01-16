@@ -1,9 +1,14 @@
 package com.moneyfli.user_service.service;
 
+import com.moneyfli.user_service.dto.LoginRequest;
 import com.moneyfli.user_service.kafka.CustomerKafkaProducer;
 import com.moneyfli.user_service.model.Customer;
 import com.moneyfli.user_service.repository.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +23,10 @@ public class CustomerService implements UserDetailsService {
     @Autowired
     private CustomerDao customerDao;
 
+    @Autowired
+    @Lazy
+    private AuthenticationManager authManager;
+
 
     @Autowired
     private CustomerKafkaProducer customerKafkaProducer;
@@ -27,7 +36,7 @@ public class CustomerService implements UserDetailsService {
             customer.setPassword(new BCryptPasswordEncoder().encode(customer.getPassword()));
             customerDao.save(customer);
             customerKafkaProducer.sendCustomerCreatedMessage(
-                    String.format("Customer %s created successfully with mobile number %s",
+                    String.format("Customer %s created successfully with mobile number: %s",
                             customer.getName(), customer.getPhoneNo()));
             return "Customer created successfully";
         } catch (Exception e) {
@@ -49,5 +58,16 @@ public class CustomerService implements UserDetailsService {
         return customerDao.findByPhoneNo(phoneNo);
     }
 
+    public String verify(LoginRequest loginRequest){
+        Authentication authentication =
+                authManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        loginRequest.getPhoneNo(), loginRequest.getPassword()));
+        if(authentication.isAuthenticated()){
+            return "Login successful";
+        } else {
+            return "Login failed";
+        }
+
+    }
 
 }

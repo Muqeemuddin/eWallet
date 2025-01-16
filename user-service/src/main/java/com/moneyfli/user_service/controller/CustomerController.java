@@ -2,7 +2,7 @@ package com.moneyfli.user_service.controller;
 
 import com.moneyfli.user_service.dto.CreateCustomerRequest;
 import com.moneyfli.user_service.dto.CustomerResponse;
-import com.moneyfli.user_service.model.Customer;
+import com.moneyfli.user_service.dto.LoginRequest;
 import com.moneyfli.user_service.service.CustomerService;
 import com.moneyfli.user_service.utils.Utils;
 import jakarta.validation.Valid;
@@ -24,10 +24,17 @@ public class CustomerController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest){
+        String result = customerService.verify(loginRequest);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/get-customer")
     public CustomerResponse getCustomer() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((User) principal).getUsername();
         return Utils.fromCustomer(customerService.getCustomerByPhoneNo(username));
     }
+
 }
