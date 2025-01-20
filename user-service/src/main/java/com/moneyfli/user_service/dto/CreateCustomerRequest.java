@@ -1,7 +1,6 @@
 package com.moneyfli.user_service.dto;
 
-import com.moneyfli.user_service.model.Customer;
-import jakarta.validation.Valid;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 

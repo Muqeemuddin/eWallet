@@ -5,13 +5,10 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class LoginRequest {
 
     @NotBlank
-    private String phoneNo;
+    private String username;
     @NotBlank
     private String password;
 

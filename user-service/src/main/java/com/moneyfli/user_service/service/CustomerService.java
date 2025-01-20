@@ -7,6 +7,7 @@ import com.moneyfli.user_service.repository.CustomerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -26,6 +27,9 @@ public class CustomerService implements UserDetailsService {
     @Autowired
     @Lazy
     private AuthenticationManager authManager;
+
+    @Autowired
+    private JWTService jwtService;
 
 
     @Autowired
@@ -59,14 +63,21 @@ public class CustomerService implements UserDetailsService {
     }
 
     public String verify(LoginRequest loginRequest){
-        Authentication authentication =
-                authManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        loginRequest.getPhoneNo(), loginRequest.getPassword()));
-        if(authentication.isAuthenticated()){
-            return "Login successful";
-        } else {
-            return "Login failed";
+
+        try{
+            Authentication authentication =
+                    authManager.authenticate(new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(), loginRequest.getPassword()));
+            if(authentication.isAuthenticated()) {
+                String s = jwtService.generateToken(loginRequest.getUsername());
+                return s;
+            }else{
+                throw new RuntimeException("Login failed");
+            }
+        } catch(BadCredentialsException exception){
+            throw new RuntimeException("Invalid credentials");
         }
+
 
     }
 

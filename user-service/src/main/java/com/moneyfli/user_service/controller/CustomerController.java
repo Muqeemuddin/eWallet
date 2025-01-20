@@ -26,11 +26,12 @@ public class CustomerController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest loginRequest){
-        String result = customerService.verify(loginRequest);
+        final String result = customerService.verify(loginRequest);
+        System.out.println(result);
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/get-customer")
+    @GetMapping("/profile-info")
     public CustomerResponse getCustomer() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((User) principal).getUsername();
