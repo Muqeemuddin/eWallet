@@ -5,9 +5,11 @@ import com.moneyfli.transaction_service.dto.CreateTransactionRequest;
 import com.moneyfli.transaction_service.model.Transaction;
 import com.moneyfli.transaction_service.model.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class TransactionService {
 
     @Autowired
@@ -22,7 +24,7 @@ public class TransactionService {
                 .receiverWalletId(createTransactionRequest.getReceiverWalletId())
                 .amount(createTransactionRequest.getAmount())
                 .description(createTransactionRequest.getDescription())
-                .transactionStatus(TransactionStatus.valueOf("INITIATED"))
+                .transactionStatus(TransactionStatus.valueOf("PENDING"))
                 .transactionId(transactionId)
                 .build();
 
