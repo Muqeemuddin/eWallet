@@ -21,4 +21,10 @@ public class CustomerKafkaConsumer {
         walletService.createWallet(message);
 
     }
+
+    @KafkaListener(topics = "transaction-initiated", groupId = "walletGroup")
+    public void consumeTransaction(String message) {
+        //LOGGER.info("Consumed message: {}", message);
+        walletService.updateWallet(message);
+    }
 }

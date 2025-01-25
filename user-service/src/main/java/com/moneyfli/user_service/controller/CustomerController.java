@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -38,4 +39,11 @@ public class CustomerController {
         return Utils.fromCustomer(customerService.getCustomerByPhoneNo(username));
     }
 
+    @GetMapping("/validate-token")
+    public ResponseEntity<UserDetails> validateToken(@RequestHeader("Authorization") String authorization) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((User) principal).getUsername();
+        return ResponseEntity.ok(customerService.loadUserByUsername(username));
+    }
+// localhost:8080/moneyfli/v1/customer/validate-token
 }
