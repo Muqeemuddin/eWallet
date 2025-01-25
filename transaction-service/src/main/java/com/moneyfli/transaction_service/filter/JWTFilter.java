@@ -50,7 +50,6 @@ public class JWTFilter extends OncePerRequestFilter {
                         String.class
                 );
 
-
                 String body = responseEntity.getBody();
                 ObjectMapper objectMapper = new ObjectMapper();
                 JsonNode jsonNode = objectMapper.readTree(body);
@@ -81,7 +80,5 @@ public class JWTFilter extends OncePerRequestFilter {
             throw new RuntimeException("Invalid token");
         }
 
-//        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//        response.getWriter().write("Authorization header is missing or invalid");
     }
 }

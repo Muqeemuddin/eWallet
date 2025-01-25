@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TransactionDao extends JpaRepository<Transaction,Long> {
+    Transaction findByTransactionId(String transactionId);
 }

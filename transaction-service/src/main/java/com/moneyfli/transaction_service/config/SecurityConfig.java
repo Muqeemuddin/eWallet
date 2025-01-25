@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.moneyfli.transaction_service.filter.JWTFilter;
 
+
 @Configuration
 public class SecurityConfig {
 
