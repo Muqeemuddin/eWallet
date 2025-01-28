@@ -10,7 +10,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic transactionCompletedTopic(){
-        return TopicBuilder.name("transaction-completed")
+        return TopicBuilder.name("wallet-transaction-completed")
                 .build();
     }
 }

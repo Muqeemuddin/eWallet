@@ -11,6 +11,6 @@ public class TransactionKafkaProducer {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendTransactionCompleteMessage(String message) {
-        kafkaTemplate.send("transaction-completed", message);
+        kafkaTemplate.send("wallet-transaction-completed", message);
     }
 }

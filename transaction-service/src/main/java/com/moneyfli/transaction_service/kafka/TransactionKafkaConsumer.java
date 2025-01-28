@@ -11,7 +11,7 @@ public class TransactionKafkaConsumer {
     @Autowired
     private TransactionService transactionService;
 
-    @KafkaListener(topics = "transaction-completed", groupId = "transactionGroup")
+    @KafkaListener(topics = "wallet-transaction-completed", groupId = "transactionGroup")
     public void consume(String message) {
         transactionService.updateTransaction(message);
     }

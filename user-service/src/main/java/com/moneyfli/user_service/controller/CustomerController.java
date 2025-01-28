@@ -45,5 +45,10 @@ public class CustomerController {
         String username = ((User) principal).getUsername();
         return ResponseEntity.ok(customerService.loadUserByUsername(username));
     }
+
+    @GetMapping("/getEmail/{username}")
+    public ResponseEntity<String> getEmail(@PathVariable String username) {
+        return ResponseEntity.ok(customerService.getCustomerByPhoneNo(username).getEmail());
+    }
 // localhost:8080/moneyfli/v1/customer/validate-token
 }

@@ -48,7 +48,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                        .requestMatchers("/moneyfli/v1/customer/create-customer", "/moneyfli/v1/customer/login").permitAll()
+                        .requestMatchers("/moneyfli/v1/customer/create-customer", "/moneyfli/v1/customer/login", "/moneyfli/v1/customer/getEmail/**").permitAll()
                         .anyRequest().authenticated()
         )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

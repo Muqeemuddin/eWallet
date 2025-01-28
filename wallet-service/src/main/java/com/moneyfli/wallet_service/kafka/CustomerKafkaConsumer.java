@@ -15,14 +15,14 @@ public class CustomerKafkaConsumer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomerKafkaConsumer.class);
 
-    @KafkaListener(topics = "customer-created", groupId = "walletGroup")
+    @KafkaListener(topics = "customer-created", groupId = "customerWalletGroup")
     public void consume(String message) {
         LOGGER.info("Consumed message: {}", message);
         walletService.createWallet(message);
 
     }
 
-    @KafkaListener(topics = "transaction-initiated", groupId = "walletGroup")
+    @KafkaListener(topics = "transaction-initiated", groupId = "transactionWalletGroup")
     public void consumeTransaction(String message) {
         //LOGGER.info("Consumed message: {}", message);
         walletService.updateWallet(message);
