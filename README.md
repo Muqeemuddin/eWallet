@@ -74,5 +74,40 @@ A microservices-based e-Wallet application built with Spring Boot. It supports u
    ```bash
    docker-compose up --build
 
-🔌 API Endpoints  
-  to be continued...
+
+---
+
+
+## 🔌 API Endpoints  
+   * User Service:
+     ```bash
+     - POST /moneyfli/v1/customer/create-customer
+     - POST /moneyfli/v1/customer/login
+     - GET  /moneyfli/v1/customer/profile-info
+     - GET  /moneyfli/v1/customer/validate-token
+     - GET  /moneyfli/v1/customer/getEmail/{username}
+
+   * Transaction Service:
+     ```bash
+     - POST /moneyfli/v1/transaction/initiate
+
+---
+
+## 🧪 Testing  
+   * Run Tests:
+     ```bash
+     mvn test
+
+---
+
+
+## 📬 Email Notifications  
+   Configured with SMTP(gmail).  
+   Sends alerts on:  
+   * Money sent or received  
+   * Failed transactions
+
+---
+
+## 🙋‍♂️ Author  
+   Muqeemuddin Mohammed
